@@ -16,13 +16,14 @@ class Trajectory:
     '''
 
     def __init__(self):
-
+        rospy.logerr('lets start somthing')
 
 def main():
-
+    rospy.init_node('trajectory')
+    traj = Trajectory()
 
 if __name__ == '__main__':
     try:
         main()
     except:
-        rospy.ROSInterruptException:
+        rospy.ROSInterruptException

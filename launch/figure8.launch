@@ -1,0 +1,4 @@
+<launch>
+    <node name="romaing_turtle" pkg="turtlesim" type="turtlesim_node" />
+    <node name="trajectory" pkg="hw2" type="trajectory" />
+</launch>
