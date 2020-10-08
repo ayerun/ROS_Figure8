@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
+from geometry_msgs.msg import Twist
 
 class Trajectory:
     '''
@@ -16,11 +17,33 @@ class Trajectory:
     '''
 
     def __init__(self):
-        rospy.logerr('lets start somthing')
+        '''
+        constructor
+        '''
+        #import parameters
+        self.W = rospy.get_param("/width")
+        self.H = rospy.get_param("/height")
+        self.T = rospy.get_param("/period")
+
+        #initialize publishers
+        self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
+        self.pub_freq = rospy.Rate(400)
+
+    def turtle_twist(self,xdot,omega):
+        '''
+        converts velocity and angular velocity to geometry_msgs/Twist message
+        args:       xdot - velocity
+                    omega - angular velocity
+        reuturns:   Twist message
+        '''
+        return Twist(linear = gmes.Vector3(x = xdot, y = 0, z = 0),
+                    angular = gmes.Vector3(x = 0, y = 0, z = omega))
 
 def main():
     rospy.init_node('trajectory')
+    rospy.loginfo('node initialized')
     traj = Trajectory()
+    rospy.spin()
 
 if __name__ == '__main__':
     try:
