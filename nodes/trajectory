@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+import rospy
+
+class Trajectory:
+    '''
+    Publishes:  geometry_msgs/Twist message to cmd_vel
+                nav_msgs/Path message to rviz?
+    Broadcasts: static transform from world to odom 
+    Services:   pause - stop turtle motion
+                resume - resume turtle motion
+    Parameters: width of figure 8
+                height of figure 8
+                period
+                ~pub_freq
+    '''
+
+    def __init__(self):
+
+
+def main():
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except:
+        rospy.ROSInterruptException:
