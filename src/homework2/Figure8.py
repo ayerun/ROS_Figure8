@@ -82,4 +82,4 @@ def main():
 
 if __name__ == '__main__':
     f8 = figure8([1,1,1,1])
-    main()
+    #main()

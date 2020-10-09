@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
+import homework2.Figure8 as f8
 from geometry_msgs.msg import Twist
 
 class Trajectory:

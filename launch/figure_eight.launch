@@ -1,7 +1,7 @@
 <launch>
     <node name="romaing_turtle" pkg="turtlesim" type="turtlesim_node" />
-    <node name="trajectory" pkg="hw2" type="trajectory" >
+    <node name="trajectory" pkg="turtle_trajectories" type="trajectory" >
         <remap from="cmd_vel" to="/turtle1/cmd_vel" />
     </node>
-    <rosparam file="$(find hw2)/config/params.yaml" />
+    <rosparam file="$(find turtle_trajectories)/config/trajectory.yaml" />
 </launch>
