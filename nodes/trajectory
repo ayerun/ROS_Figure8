@@ -60,8 +60,8 @@ def main():
 
     #calculate trajectory
     th0 = calc.find_th0()
-    vd = calc.find_v()
-    wd = calc.find_w()
+    vd = calc.find_vlist()
+    wd = calc.find_wlist()
 
     #Orient turtle
     now = rospy.get_time()

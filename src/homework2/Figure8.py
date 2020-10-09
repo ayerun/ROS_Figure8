@@ -41,7 +41,7 @@ class figure8(object):
         return th0
 
 
-    def find_v(self):
+    def find_vlist(self):
         '''
         Returns:
             vd (float list): list of velocity commands for the turtle
@@ -49,10 +49,98 @@ class figure8(object):
         vd = np.pi*np.sqrt((4*self.H**2*np.square(np.cos((4*np.pi*self.tlist)/self.T))+self.W**2*np.square(np.cos((2*np.pi*self.tlist)/self.T)))/(self.T**2))
         return vd
 
-    def find_w(self):
+    def find_wlist(self):
         '''
         Returns:
             wd (float list): list of velocity commands for the turtle
         '''
         wd = (4*np.pi*self.H*self.W*(np.sin((2*np.pi*self.tlist)/self.T)*np.cos((4*np.pi*self.tlist)/self.T)-2*np.sin((4*np.pi*self.tlist)/self.T)*np.cos((2*np.pi*self.tlist)/self.T)))/(self.T*(4*self.H**2*np.square(np.cos((4*np.pi*self.tlist)/self.T))+self.W**2*np.square(np.cos((2*np.pi*self.tlist)/self.T))))
+        return wd
+
+    def find_xd(self,t):
+        '''
+        Calculates desired x position at time t
+        Args:
+            t (float): time
+        Returns:
+            xd (float): desired x position at time t
+        '''
+        xd = (self.W*np.sin((2*np.pi*t)/self.T))/2
+        return xd
+
+    def find_yd(self,t):
+        '''
+        Calculates desired y position at time t
+        Args:
+            t (float): time
+        Returns:
+            yd (float): desired y position at time t
+        '''
+        yd = (self.H*np.sin((4*np.pi*t)/self.T))/2
+        return yd
+
+    def find_xd_dot(self,t):
+        '''
+        Calculates desired x velocity at time t
+        Args:
+            t (float): time
+        Returns:
+            xd_dot (float): desired x velocity at time t
+        '''
+        xd_dot = (np.pi*self.W*np.cos((2*np.pi*t)/self.T))/self.T
+        return xd_dot
+
+    def find_yd_dot(self,t):
+        '''
+        Calculates desired y velocity at time t
+        Args:
+            t (float): time
+        Returns:
+            yd_dot (float): desired y velocity at time t
+        '''
+        yd_dot = (2*np.pi*self.H*np.cos((4*np.pi*t)/self.T))/self.T
+        return yd_dot
+
+    def find_xd_ddot(self,t):
+        '''
+        Calculates desired x acceleration at time t
+        Args:
+            t (float): time
+        Returns:
+            xd_ddot (float): desired x acceleration at time t
+        '''
+        xd_ddot = (-2*np.pi**2*self.W*np.sin((2*np.pi*t)/self.T))/self.T**2
+        return xd_ddot
+
+    def find_yd_ddot(self,t):
+        '''
+        Calculates desired y acceleration at time t
+        Args:
+            t (float): time
+        Returns:
+            yd_ddot (float): desired x acceleration at time t
+        '''
+        yd_ddot = (-8*np.pi**2*self.H*np.sin((4*np.pi*t)/self.T))/self.T**2
+        return yd_ddot
+
+    def find_vd(self,t):
+        '''
+        Calculates desired velocity at time t
+        Args:
+            t (float): time
+        Returns:
+            vd (float): velocity at time t
+        '''
+        vd = np.pi*np.sqrt((4*self.H**2*np.square(np.cos((4*np.pi*t)/self.T))+self.W**2*np.square(np.cos((2*np.pi*t)/self.T)))/(self.T**2))
+        return vd
+
+    def find_wd(self,t):
+        '''
+        Calculates desired angular velocity at time t
+        Args:
+            t (float): time
+        Returns:
+            wd (float): angular velocity at time t
+        '''
+        wd = (4*np.pi*self.H*self.W*(np.sin((2*np.pi*t)/self.T)*np.cos((4*np.pi*t)/self.T)-2*np.sin((4*np.pi*t)/self.T)*np.cos((2*np.pi*t)/self.T)))/(self.T*(4*self.H**2*np.square(np.cos((4*np.pi*t)/self.T))+self.W**2*np.square(np.cos((2*np.pi*t)/self.T))))
         return wd
