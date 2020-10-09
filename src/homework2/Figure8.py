@@ -13,8 +13,8 @@ class figure8(object):
         self.T = object[2]
         self.pub_freq = object[3]
         self.points = self.T*self.pub_freq              #calculate number of points in trajectory
-        self.tlist = np.linspace(0,self.T,self.points)  #create a list of times
-
+        self.tlist = np.linspace(0,self.T,self.points)  #create a list of times for simulation
+        self.plist = np.linspace(0,self.T,1000)         #create a list of time for display
     
     def update(self,w,h,t,pf):
         '''
@@ -59,6 +59,33 @@ class figure8(object):
         '''
         wd = (4*np.pi*self.H*self.W*(np.sin((2*np.pi*self.tlist)/self.T)*np.cos((4*np.pi*self.tlist)/self.T)-2*np.sin((4*np.pi*self.tlist)/self.T)*np.cos((2*np.pi*self.tlist)/self.T)))/(self.T*(4*self.H**2*np.square(np.cos((4*np.pi*self.tlist)/self.T))+self.W**2*np.square(np.cos((2*np.pi*self.tlist)/self.T))))
         return wd
+    
+    def find_xlist(self):
+        '''
+        Calculates all x positions of the trajectory
+        Returns:
+            xlist (float list): x positions of trajectory
+        '''
+        xlist = (self.W*np.sin((2*np.pi*self.plist)/self.T))/2
+        return xlist
+
+    def find_ylist(self):
+        '''
+        Calculates all y positions of the trajectory
+        Returns:
+            ylist (float list): y positions of trajectory
+        '''
+        ylist = (self.H*np.sin((4*np.pi*self.plist)/self.T))/2
+        return ylist
+
+    def find_thlist(self):
+        '''
+        Calculates all turtle angles in the trajectory
+        Returns:
+            thlist (float list): angles of trajectory
+        '''
+        thlist = np.arctan((2*self.H*np.cos((4*np.pi*self.plist)/self.T))/(self.W*np.cos((2*np.pi*self.plist)/self.T)))
+        return thlist
 
     def find_xd(self,t):
         '''

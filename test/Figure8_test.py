@@ -7,7 +7,7 @@ import numpy as np
 
 class MyTestCase(unittest.TestCase):
     '''
-    Test all trajectory and turtle command function in homework2 python pacakge
+    Test all trajectory and turtle command functions in homework2 python pacakge
     All calculations are done at t=0 and t=2
     All calculations assume W=1, H=2, T=3
     '''

@@ -2,9 +2,11 @@
 
 import rospy
 import homework2.Figure8 as f8
-import time
-from geometry_msgs.msg import Twist, Vector3
-from turtlesim.srv import TeleportAbsolute
+#import time #may need later
+from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion
+from nav_msgs.msg import Path
+from tf.msg import tfMessage
+from tf.transformations import quaternion_from_euler
 
 class Trajectory:
     '''
@@ -44,6 +46,19 @@ def turtle_twist(xdot,omega):
     '''
     return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
                 angular = Vector3(x = 0, y = 0, z = omega))
+
+def convert_to_path(x,y,th):
+    '''
+    converts positional and angular arguments to path message
+    Args:
+        x (float list): x positions
+        y (float list): y positions
+        th (float list): yaws
+    Returns:
+        path (nav_msgs/Path): turtle trajectory
+    '''
+    q = quaternion_from_euler(0,0,th)
+    pt = 
 
 def main():
     '''
