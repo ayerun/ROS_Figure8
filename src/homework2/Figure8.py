@@ -32,54 +32,27 @@ class figure8(object):
         self.points = self.T*self.pub_freq
         self.tlist = np.linspace(0,self.T,self.points)
 
-def update(w,h,t,pf):
-    '''
-    call this function in trajectory constructor to input values
-    Updates f8 values
-    Args:
-        w (float): width
-        h (float): height
-        t (float): period
-        pf (int): publishing frequency
-    '''
-    f8.update(w,h,t,pf)
-
-def find_th0():
-    '''
-    Returns:
-        th0 (float): turtle's starting angle
-    '''
-    th0 = np.arctan((2*f8.H)/f8.W)
-    return th0
-
-def find_v():
-    '''
-    Returns:
-        vd (float list): list of velocity commands for the turtle
-    '''
-    vd = np.pi*np.sqrt((4*f8.H**2*np.square(np.cos(4*np.pi*f8.tlist))+f8.W**2*np.square(np.cos(2*np.pi*f8.tlist)))/(f8.T**2))
-    return vd
-
-def find_w():
-    '''
-    Returns:
-        wd (float list): list of velocity commands for the turtle
-    '''
-    wd = (4*np.pi*f8.H*f8.W*(np.sin(2*np.pi*f8.tlist)*np.cos(4*np.pi*f8.tlist)-2*np.sin(4*np.pi*f8.tlist)*np.cos(2*np.pi*f8.tlist)))/(4*f8.H**2*np.square(np.cos(4*np.pi*f8.tlist))+f8.W**2*np.square(np.cos(2*np.pi*f8.tlist)))
-    return wd
-
-def main():
-    update(1,2,3,4)
-    th0 = find_th0()
-    vd = find_v()
-    wd = find_w()
-    print(f8.tlist)
-    print()
-    print(vd)
-    print()
-    print(wd)
+    def find_th0(self):
+        '''
+        Returns:
+            th0 (float): turtle's starting angle
+        '''
+        th0 = np.arctan((2*self.H)/self.W)
+        return th0
 
 
-if __name__ == '__main__':
-    f8 = figure8([1,1,1,1])
-    #main()
+    def find_v(self):
+        '''
+        Returns:
+            vd (float list): list of velocity commands for the turtle
+        '''
+        vd = np.pi*np.sqrt((4*self.H**2*np.square(np.cos(4*np.pi*self.tlist))+self.W**2*np.square(np.cos(2*np.pi*self.tlist)))/(self.T**2))
+        return vd
+
+    def find_w(self):
+        '''
+        Returns:
+            wd (float list): list of velocity commands for the turtle
+        '''
+        wd = (4*np.pi*self.H*self.W*(np.sin(2*np.pi*self.tlist)*np.cos(4*np.pi*self.tlist)-2*np.sin(4*np.pi*self.tlist)*np.cos(2*np.pi*self.tlist)))/(4*self.H**2*np.square(np.cos(4*np.pi*self.tlist))+self.W**2*np.square(np.cos(2*np.pi*self.tlist)))
+        return wd

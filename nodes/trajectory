@@ -21,14 +21,17 @@ class Trajectory:
         '''
         constructor
         '''
+        
         #import parameters
         self.W = rospy.get_param("/width")
         self.H = rospy.get_param("/height")
         self.T = rospy.get_param("/period")
-
+        
         #initialize publishers
-        self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
-        self.pub_freq = rospy.Rate(400)
+        self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
+        self.pub_freq = 400
+        self.prate = rospy.Rate(self.pub_freq)
+
 
     def turtle_twist(self,xdot,omega):
         '''
@@ -44,8 +47,19 @@ def main():
     '''
     main function to utilize class
     '''
+    #initialize node & class
+    rospy.init_node('trajectory')                               
     traj = Trajectory()
-    rospy.init_node('trajectory')
+
+    #initialize figure8 class with imported parameters
+    calc = f8.figure8([traj.W,traj.H,traj.T,traj.pub_freq])
+
+    #calculate trajectory
+    th0 = calc.find_th0()
+    vd = calc.find_v()
+    wd = calc.find_w()
+    
+    rospy.loginfo(wd)
     rospy.spin()
 
 if __name__ == '__main__':
