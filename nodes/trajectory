@@ -72,7 +72,7 @@ def main():
         tr.prate.sleep()
     tr.pub.publish(tr.turtle_twist(0,0))
 
-    #FIGURE 8
+    #FIGURE 8 currently turtle does figure8 15 time when it should do it once in 15 seconds
     i = 0
     now = rospy.get_time()
     while rospy.get_time() < now+tr.T:
