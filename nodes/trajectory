@@ -2,7 +2,6 @@
 
 import rospy
 import homework2.Figure8 as f8
-#import time #may need later
 from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion
 from nav_msgs.msg import Path
 from tf.msg import tfMessage
@@ -33,6 +32,7 @@ class Trajectory:
         
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
+        self.ppub = rospy.Publisher('path',Path,queue_size=10)
         self.pub_freq = 400
         self.prate = rospy.Rate(self.pub_freq)
 
@@ -47,9 +47,9 @@ def turtle_twist(xdot,omega):
     return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
                 angular = Vector3(x = 0, y = 0, z = omega))
 
-def convert_to_path(x,y,th):
+def publish_path(x,y,th):
     '''
-    converts positional and angular arguments to path message
+    converts positional and angular arguments to path message while publishing to path topic
     Args:
         x (float list): x positions
         y (float list): y positions
@@ -57,8 +57,20 @@ def convert_to_path(x,y,th):
     Returns:
         path (nav_msgs/Path): turtle trajectory
     '''
-    q = quaternion_from_euler(0,0,th)
-    pt = 
+    path = Path()
+    path.header.frame_id = 'map'
+    path.header.stamp = rospy.get_time()
+    for i in range(0,len(x)):
+        q = quaternion_from_euler(0,0,th[i])
+        pt = Point(x[i],y[i],1)
+        po = Pose(pt,q)
+        post = PoseStamped()
+        post.header.stamp = rospy.get_time()
+        post.pose = po
+        path.poses.append(po)
+        #rospy.loginfo(path)
+    return path
+
 
 def main():
     '''
@@ -70,13 +82,17 @@ def main():
 
     #initialize figure8 class with imported parameters
     calc = f8.figure8([tr.W,tr.H,tr.T,tr.pub_freq])
-    
-    #time.sleep(1)  #might need later
 
     #calculate trajectory
     th0 = calc.find_th0()
     vd = calc.find_vlist()
     wd = calc.find_wlist()
+    thlist = calc.find_thlist()
+    xlist = calc.find_xlist()
+    ylist = calc.find_ylist()
+
+    #display trajectory in rviz
+    path = publish_path(xlist,ylist,thlist)
 
     #Orient turtle
     now = rospy.get_time()
