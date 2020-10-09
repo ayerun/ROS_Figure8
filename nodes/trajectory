@@ -31,7 +31,7 @@ class Trajectory:
         
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
-        self.pub_freq = 100
+        self.pub_freq = 400
         self.prate = rospy.Rate(self.pub_freq)
 
         #initalize services
@@ -71,6 +71,16 @@ def main():
         tr.pub.publish(tr.turtle_twist(0,th0/2))
         tr.prate.sleep()
     tr.pub.publish(tr.turtle_twist(0,0))
+
+    #FIGURE 8
+    i = 0
+    now = rospy.get_time()
+    while rospy.get_time() < now+tr.T:
+        tr.pub.publish(tr.turtle_twist(vd[i],wd[i]))
+        i=i+1
+        tr.prate.sleep()
+    tr.pub.publish(tr.turtle_twist(0,0))
+
     
     rospy.spin()
 
