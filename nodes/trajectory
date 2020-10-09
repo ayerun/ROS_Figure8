@@ -2,7 +2,9 @@
 
 import rospy
 import homework2.Figure8 as f8
-from geometry_msgs.msg import Twist
+import time
+from geometry_msgs.msg import Twist, Vector3
+from turtlesim.srv import TeleportAbsolute
 
 class Trajectory:
     '''
@@ -29,8 +31,12 @@ class Trajectory:
         
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
-        self.pub_freq = 400
+        self.pub_freq = 100
         self.prate = rospy.Rate(self.pub_freq)
+
+        #initalize services
+        #rospy.wait_for_service('teleport_absolute')
+        #self.teleport_absolute = rospy.ServiceProxy("teleport_absolute", TeleportAbsolute)
 
 
     def turtle_twist(self,xdot,omega):
@@ -40,8 +46,8 @@ class Trajectory:
                     omega - angular velocity
         reuturns:   Twist message
         '''
-        return Twist(linear = gmes.Vector3(x = xdot, y = 0, z = 0),
-                    angular = gmes.Vector3(x = 0, y = 0, z = omega))
+        return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
+                    angular = Vector3(x = 0, y = 0, z = omega))
 
 def main():
     '''
@@ -49,17 +55,23 @@ def main():
     '''
     #initialize node & class
     rospy.init_node('trajectory')                               
-    traj = Trajectory()
+    tr = Trajectory()
 
     #initialize figure8 class with imported parameters
-    calc = f8.figure8([traj.W,traj.H,traj.T,traj.pub_freq])
-
+    calc = f8.figure8([tr.W,tr.H,tr.T,tr.pub_freq])
+    time.sleep(1)
     #calculate trajectory
     th0 = calc.find_th0()
     vd = calc.find_v()
     wd = calc.find_w()
+
+    #Orient turtle
+    now = rospy.get_time()
+    while rospy.get_time() < now+2:
+        tr.pub.publish(tr.turtle_twist(0,th0/2))
+        tr.prate.sleep()
+    tr.pub.publish(tr.turtle_twist(0,0))
     
-    rospy.loginfo(wd)
     rospy.spin()
 
 if __name__ == '__main__':

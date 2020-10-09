@@ -2,6 +2,7 @@
     <node name="romaing_turtle" pkg="turtlesim" type="turtlesim_node" />
     <node name="trajectory" pkg="turtle_trajectories" type="trajectory" >
         <remap from="cmd_vel" to="/turtle1/cmd_vel" />
+        <remap from="teleport_absolute" to="turtle1/teleport_absolute" />
     </node>
     <rosparam file="$(find turtle_trajectories)/config/trajectory.yaml" />
 </launch>
