@@ -34,6 +34,7 @@ class figure8(object):
 
     def find_th0(self):
         '''
+        Calculate initial angle for figure8
         Returns:
             th0 (float): turtle's starting angle
         '''
@@ -43,6 +44,7 @@ class figure8(object):
 
     def find_vlist(self):
         '''
+        Calculates list of velocity values that can be used in turtle commands
         Returns:
             vd (float list): list of velocity commands for the turtle
         '''
@@ -51,6 +53,7 @@ class figure8(object):
 
     def find_wlist(self):
         '''
+        Calculates list of angular velocity values that can be used in turtle commands
         Returns:
             wd (float list): list of velocity commands for the turtle
         '''
