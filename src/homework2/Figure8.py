@@ -46,7 +46,7 @@ class figure8(object):
         Returns:
             vd (float list): list of velocity commands for the turtle
         '''
-        vd = np.pi*np.sqrt((4*self.H**2*np.square(np.cos(4*np.pi*self.tlist))+self.W**2*np.square(np.cos(2*np.pi*self.tlist)))/(self.T**2))
+        vd = np.pi*np.sqrt((4*self.H**2*np.square(np.cos((4*np.pi*self.tlist)/self.T))+self.W**2*np.square(np.cos((2*np.pi*self.tlist)/self.T)))/(self.T**2))
         return vd
 
     def find_w(self):
@@ -54,5 +54,5 @@ class figure8(object):
         Returns:
             wd (float list): list of velocity commands for the turtle
         '''
-        wd = (4*np.pi*self.H*self.W*(np.sin(2*np.pi*self.tlist)*np.cos(4*np.pi*self.tlist)-2*np.sin(4*np.pi*self.tlist)*np.cos(2*np.pi*self.tlist)))/(4*self.H**2*np.square(np.cos(4*np.pi*self.tlist))+self.W**2*np.square(np.cos(2*np.pi*self.tlist)))
+        wd = (4*np.pi*self.H*self.W*(np.sin((2*np.pi*self.tlist)/self.T)*np.cos((4*np.pi*self.tlist)/self.T)-2*np.sin((4*np.pi*self.tlist)/self.T)*np.cos((2*np.pi*self.tlist)/self.T)))/(self.T*(4*self.H**2*np.square(np.cos((4*np.pi*self.tlist)/self.T))+self.W**2*np.square(np.cos((2*np.pi*self.tlist)/self.T))))
         return wd

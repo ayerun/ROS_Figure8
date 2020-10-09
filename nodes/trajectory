@@ -34,24 +34,20 @@ class Trajectory:
         self.pub_freq = 400
         self.prate = rospy.Rate(self.pub_freq)
 
-        #initalize services
-        #rospy.wait_for_service('teleport_absolute')
-        #self.teleport_absolute = rospy.ServiceProxy("teleport_absolute", TeleportAbsolute)
 
-
-    def turtle_twist(self,xdot,omega):
-        '''
-        converts velocity and angular velocity to geometry_msgs/Twist message
-        args:       xdot - velocity
-                    omega - angular velocity
-        reuturns:   Twist message
-        '''
-        return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
-                    angular = Vector3(x = 0, y = 0, z = omega))
+def turtle_twist(xdot,omega):
+    '''
+    converts velocity and angular velocity to geometry_msgs/Twist message
+    args:       xdot - velocity
+                omega - angular velocity
+    reuturns:   Twist message
+    '''
+    return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
+                angular = Vector3(x = 0, y = 0, z = omega))
 
 def main():
     '''
-    main function to utilize class
+    main function to calculate and execute figure eight trajectory
     '''
     #initialize node & class
     rospy.init_node('trajectory')                               
@@ -59,7 +55,9 @@ def main():
 
     #initialize figure8 class with imported parameters
     calc = f8.figure8([tr.W,tr.H,tr.T,tr.pub_freq])
-    time.sleep(1)
+    
+    #time.sleep(1)  #might need later
+
     #calculate trajectory
     th0 = calc.find_th0()
     vd = calc.find_v()
@@ -67,19 +65,19 @@ def main():
 
     #Orient turtle
     now = rospy.get_time()
-    while rospy.get_time() < now+2:
-        tr.pub.publish(tr.turtle_twist(0,th0/2))
+    while rospy.get_time() < now+4:
+        tr.pub.publish(turtle_twist(0,th0/4))
         tr.prate.sleep()
-    tr.pub.publish(tr.turtle_twist(0,0))
+    tr.pub.publish(turtle_twist(0,0))
 
-    #FIGURE 8 currently turtle does figure8 15 time when it should do it once in 15 seconds
+    #FIGURE 8
     i = 0
     now = rospy.get_time()
     while rospy.get_time() < now+tr.T:
-        tr.pub.publish(tr.turtle_twist(vd[i],wd[i]))
+        tr.pub.publish(turtle_twist(vd[i],wd[i]))
         i=i+1
         tr.prate.sleep()
-    tr.pub.publish(tr.turtle_twist(0,0))
+    tr.pub.publish(turtle_twist(0,0))
 
     
     rospy.spin()
