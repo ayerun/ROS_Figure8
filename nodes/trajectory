@@ -6,6 +6,7 @@ from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaterni
 from nav_msgs.msg import Path
 from tf.msg import tfMessage
 from tf.transformations import quaternion_from_euler
+import time
 
 class Trajectory:
     '''
@@ -32,7 +33,7 @@ class Trajectory:
         
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
-        self.ppub = rospy.Publisher('path',Path,queue_size=10)
+        self.ppub = rospy.Publisher('turtle1/path',Path,queue_size=10)
         self.pub_freq = 400
         self.prate = rospy.Rate(self.pub_freq)
 
@@ -57,18 +58,26 @@ def publish_path(x,y,th):
     Returns:
         path (nav_msgs/Path): turtle trajectory
     '''
+    path_pub = rospy.Publisher('turtle1/path',Path,queue_size=10)
     path = Path()
+    path.poses = []
     path.header.frame_id = 'map'
     path.header.stamp = rospy.get_time()
     for i in range(0,len(x)):
-        q = quaternion_from_euler(0,0,th[i])
+        #q = quaternion_from_euler(0,0,th[i])
+        q = Quaternion(0,0,0,1)
         pt = Point(x[i],y[i],1)
         po = Pose(pt,q)
         post = PoseStamped()
-        post.header.stamp = rospy.get_time()
+        #post.header.stamp = rospy.get_time()
         post.pose = po
         path.poses.append(po)
-        #rospy.loginfo(path)
+        try:
+            path_pub.publish(path)
+            rospy.loginfo('IM WORKING')
+        except:
+            rospy.loginfo('publication error')
+
     return path
 
 
@@ -91,8 +100,12 @@ def main():
     xlist = calc.find_xlist()
     ylist = calc.find_ylist()
 
+    time.sleep(5)
+
     #display trajectory in rviz
     path = publish_path(xlist,ylist,thlist)
+    #tr.ppub.publish(path)
+    rospy.loginfo(path)
 
     #Orient turtle
     now = rospy.get_time()
@@ -104,10 +117,18 @@ def main():
     #FIGURE 8
     i = 0
     now = rospy.get_time()
-    while rospy.get_time() < now+tr.T:
+    while not rospy.is_shutdown():
+    #while rospy.get_time() < now+tr.T:
         tr.pub.publish(turtle_twist(vd[i],wd[i]))
+        try:
+            tr.ppub.publish(path)
+        except:
+            rospy.loginfo('pubfailed')
         i=i+1
+        if i == len(vd):
+            i = 0
         tr.prate.sleep()
+
     tr.pub.publish(turtle_twist(0,0))
 
     
