@@ -14,7 +14,7 @@ class figure8(object):
         self.pub_freq = object[3]
         self.points = self.T*self.pub_freq              #calculate number of points in trajectory
         self.tlist = np.linspace(0,self.T,self.points)  #create a list of times for simulation
-        self.plist = np.linspace(0,self.T,1000)         #create a list of time for display
+        self.plist = np.linspace(0,self.T,10)         #create a list of time for display
     
     def update(self,w,h,t,pf):
         '''
@@ -67,6 +67,7 @@ class figure8(object):
             xlist (float list): x positions of trajectory
         '''
         xlist = (self.W*np.sin((2*np.pi*self.plist)/self.T))/2
+        xlist = xlist.tolist()
         return xlist
 
     def find_ylist(self):
@@ -76,6 +77,7 @@ class figure8(object):
             ylist (float list): y positions of trajectory
         '''
         ylist = (self.H*np.sin((4*np.pi*self.plist)/self.T))/2
+        ylist = ylist.tolist()
         return ylist
 
     def find_thlist(self):
