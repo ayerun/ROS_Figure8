@@ -3,10 +3,7 @@
 import rospy
 import homework2.Figure8 as f8
 from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion
-#from std_msgs.msg import Float64
 from nav_msgs.msg import Path
-#from tf.msg import tfMessage
-#from tf.transformations import quaternion_from_euler
 
 
 class Trajectory:
@@ -64,7 +61,6 @@ def convert_to_path(x,y,th):
     path.header.frame_id = 'map'
     path.header.stamp = rospy.Time.now()
     for i in range(0,len(x)):
-        #q = quaternion_from_euler(0,0,th[i])
         q = Quaternion(0,0,0,1)
         pt = Point(x[i],y[i],1)
         po = Pose(pt,q)
