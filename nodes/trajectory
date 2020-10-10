@@ -3,11 +3,10 @@
 import rospy
 import homework2.Figure8 as f8
 from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion
-from std_msgs.msg import Float64
+#from std_msgs.msg import Float64
 from nav_msgs.msg import Path
-from tf.msg import tfMessage
-from tf.transformations import quaternion_from_euler
-import time
+#from tf.msg import tfMessage
+#from tf.transformations import quaternion_from_euler
 
 
 class Trajectory:
@@ -35,7 +34,7 @@ class Trajectory:
         
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
-        self.ppub = rospy.Publisher('turtle1/path',Path,queue_size=10,latch=True)
+        self.ppub = rospy.Publisher('/path',Path,queue_size=10,latch=True)
         self.pub_freq = 200
         self.prate = rospy.Rate(self.pub_freq)
 
@@ -50,7 +49,7 @@ def turtle_twist(xdot,omega):
     return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
                 angular = Vector3(x = 0, y = 0, z = omega))
 
-def publish_path(x,y,th):
+def convert_to_path(x,y,th):
     '''
     converts positional and angular arguments to path message while publishing to path topic
     Args:
@@ -95,16 +94,9 @@ def main():
     xlist = calc.find_xlist()
     ylist = calc.find_ylist()
 
-    time.sleep(2)
-
-    #display trajectory in rviz
-    path = publish_path(xlist,ylist,thlist)
-    try:
-        tr.ppub.publish(path)
-        rospy.loginfo('SUCCESS')
-    except:
-        rospy.logerr('pub failed')
-    rospy.loginfo(path)
+    #publish Path message to /path
+    path = convert_to_path(xlist,ylist,thlist)
+    tr.ppub.publish(path)
 
     #Orient turtle
     now = rospy.get_time()
@@ -116,17 +108,9 @@ def main():
     #FIGURE 8
     i = 0
     now = rospy.get_time()
-    testp = Path()
-    while not rospy.is_shutdown():
-    #while rospy.get_time() < now+tr.T:
+    while rospy.get_time() < now+tr.T:
         tr.pub.publish(turtle_twist(vd[i],wd[i]))
-        # try:
-        #     tr.ppub.publish(path)
-        # except:
-        #     rospy.loginfo('pubfailed')
         i=i+1
-        if i == len(vd):
-            i = 0
         tr.prate.sleep()
 
     tr.pub.publish(turtle_twist(0,0))
