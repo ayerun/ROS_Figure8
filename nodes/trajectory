@@ -41,7 +41,6 @@ class Trajectory:
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
         self.ppub = rospy.Publisher('/path',Path,queue_size=10,latch=True)
-        #self.pub_freq = 200
         self.prate = rospy.Rate(self.pub_freq)
 
         #initialize services
