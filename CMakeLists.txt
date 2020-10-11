@@ -10,14 +10,13 @@ project(turtle_trajectories)
 find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   message_generation
-  message_runtime
   nav_msgs
   rospy
   rviz
   std_msgs
   std_srvs
-  turtlesim
   tf
+  turtlesim
 )
 
 ## System dependencies are found with CMake's conventions
@@ -75,10 +74,10 @@ catkin_python_setup()
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   geometry_msgs#   nav_msgs#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  geometry_msgs nav_msgs std_msgs std_srvs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -112,7 +111,7 @@ catkin_python_setup()
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES turtle_trajectories
-#  CATKIN_DEPENDS gazebo geometry_msgs message_generation message_runtime nav_msgs rospy rviz std_msgs std_srvs turtlesim
+ CATKIN_DEPENDS geometry_msgs nav_msgs rospy rviz std_msgs std_srvs turtlesim
 #  DEPENDS system_lib
 )
 
