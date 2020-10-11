@@ -6,4 +6,5 @@
         <param name='pub_freq' value='200.0' />
         <rosparam file="$(find turtle_trajectories)/config/trajectory.yaml" />
     </node>
+    <node name='plot' pkg='rqt_plot' type='rqt_plot' args='/turtle1/pose/x /turtle1/pose/y' />
 </launch>
