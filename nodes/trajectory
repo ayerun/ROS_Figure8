@@ -4,6 +4,7 @@ import rospy
 import homework2.Figure8 as f8
 from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion
 from nav_msgs.msg import Path
+from std_srvs.srv import Empty
 
 
 class Trajectory:
@@ -34,6 +35,14 @@ class Trajectory:
         self.ppub = rospy.Publisher('/path',Path,queue_size=10,latch=True)
         self.pub_freq = 200
         self.prate = rospy.Rate(self.pub_freq)
+
+        #initialize services
+        self.pause = rospy.Service('pause',Empty,self.pause_callback)
+
+    def pause_callback(self,emp):
+        rospy.loginfo('in the callback')
+        #rospy.loginfo(emp)
+        #return None
 
 
 def turtle_twist(xdot,omega):
