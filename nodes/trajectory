@@ -29,6 +29,12 @@ class Trajectory:
         self.W = rospy.get_param("/width")
         self.H = rospy.get_param("/height")
         self.T = rospy.get_param("/period")
+
+        #initialize attributes
+        self.wd = []
+        self.vd = []
+        self.th0 = 0
+        self.i = 0
         
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
@@ -41,8 +47,16 @@ class Trajectory:
 
     def pause_callback(self,emp):
         rospy.loginfo('in the callback')
-        #rospy.loginfo(emp)
-        #return None
+
+
+    def follow_path(self):
+        #now = rospy.get_time()
+        while self.i < len(self.vd):
+            self.pub.publish(turtle_twist(self.vd[self.i],self.wd[self.i]))
+            self.i=self.i+1
+            self.prate.sleep()
+
+        self.pub.publish(turtle_twist(0,0))
 
 
 def turtle_twist(xdot,omega):
@@ -55,7 +69,7 @@ def turtle_twist(xdot,omega):
     return Twist(linear = Vector3(x = xdot, y = 0, z = 0),
                 angular = Vector3(x = 0, y = 0, z = omega))
 
-def convert_to_path(x,y,th):
+def convert_to_path(x,y):
     '''
     converts positional and angular arguments to path message while publishing to path topic
     Args:
@@ -92,33 +106,25 @@ def main():
     calc = f8.figure8([tr.W,tr.H,tr.T,tr.pub_freq])
 
     #calculate trajectory
-    th0 = calc.find_th0()
-    vd = calc.find_vlist()
-    wd = calc.find_wlist()
-    thlist = calc.find_thlist()
+    tr.th0 = calc.find_th0()
+    tr.vd = calc.find_vlist()
+    tr.wd = calc.find_wlist()
     xlist = calc.find_xlist()
     ylist = calc.find_ylist()
 
     #publish Path message to /path
-    path = convert_to_path(xlist,ylist,thlist)
+    path = convert_to_path(xlist,ylist)
     tr.ppub.publish(path)
 
     #Orient turtle
     now = rospy.get_time()
     while rospy.get_time() < now+4:
-        tr.pub.publish(turtle_twist(0,th0/4))
+        tr.pub.publish(turtle_twist(0,tr.th0/4))
         tr.prate.sleep()
     tr.pub.publish(turtle_twist(0,0))
 
     #FIGURE 8
-    i = 0
-    now = rospy.get_time()
-    while rospy.get_time() < now+tr.T:
-        tr.pub.publish(turtle_twist(vd[i],wd[i]))
-        i=i+1
-        tr.prate.sleep()
-
-    tr.pub.publish(turtle_twist(0,0))
+    tr.follow_path()
 
     
     rospy.spin()
