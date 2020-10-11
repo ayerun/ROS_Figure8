@@ -14,7 +14,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   rviz
   std_msgs
-  tf
+  tf2
+  tf2_ros
   turtlesim
 )
 
