@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   rviz
   std_msgs
-  std_srvs
   tf
   turtlesim
 )
@@ -60,11 +59,11 @@ catkin_python_setup()
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  Pause.srv
+#   Resume.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -76,7 +75,7 @@ catkin_python_setup()
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  geometry_msgs nav_msgs std_msgs std_srvs
+  geometry_msgs nav_msgs std_msgs
 )
 
 ################################################
@@ -111,7 +110,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES turtle_trajectories
- CATKIN_DEPENDS geometry_msgs nav_msgs rospy rviz std_msgs std_srvs turtlesim
+ CATKIN_DEPENDS geometry_msgs message_runtime nav_msgs rospy rviz std_msgs turtlesim
 #  DEPENDS system_lib
 )
 
