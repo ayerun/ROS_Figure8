@@ -26,9 +26,10 @@ class Trajectory:
         '''
         
         #import parameters
-        self.W = rospy.get_param("/width")
-        self.H = rospy.get_param("/height")
-        self.T = rospy.get_param("/period")
+        self.W = rospy.get_param("trajectory/width")
+        self.H = rospy.get_param("trajectory/height")
+        self.T = rospy.get_param("trajectory/period")
+        self.pub_freq = rospy.get_param('trajectory/pub_freq')
 
         #initialize attributes
         self.wd = []
@@ -40,7 +41,7 @@ class Trajectory:
         #initialize publishers
         self.pub = rospy.Publisher('cmd_vel',Twist,queue_size=10) 
         self.ppub = rospy.Publisher('/path',Path,queue_size=10,latch=True)
-        self.pub_freq = 200
+        #self.pub_freq = 200
         self.prate = rospy.Rate(self.pub_freq)
 
         #initialize services
