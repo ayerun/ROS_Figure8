@@ -7,6 +7,8 @@ Panels:
         - /Global Options1
         - /Status1
         - /Path1
+        - /TF1
+        - /TF1/Frames1
       Splitter Ratio: 0.5
     Tree Height: 555
   - Class: rviz/Selection
@@ -21,6 +23,7 @@ Panels:
   - Class: rviz/Views
     Expanded:
       - /Current View1
+      - /Current View1/Focal Point1
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz/Time
@@ -77,11 +80,32 @@ Visualization Manager:
       Topic: /path
       Unreliable: false
       Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        odom:
+          Value: true
+        world:
+          Value: true
+      Marker Alpha: 1
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          odom:
+            {}
+      Update Interval: 0
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: world
     Frame Rate: 30
   Name: root
   Tools:
@@ -105,13 +129,13 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 21.26082992553711
+      Distance: 11.404912948608398
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
-      Field of View: 0.75
+      Field of View: 1
       Focal Point:
         X: 0
         Y: 0
@@ -123,7 +147,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 1.5698000192642212
+      Yaw: -1.5700000524520874
     Saved: ~
 Window Geometry:
   Displays:

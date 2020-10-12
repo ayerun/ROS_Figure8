@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 import rospy
+import tf2_ros
 import homework2.Figure8 as f8
-from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion
+from geometry_msgs.msg import Twist, Vector3, PoseStamped, Pose, Point, Quaternion, TransformStamped
 from nav_msgs.msg import Path
 from turtle_trajectories.srv import Pause
-
+from tf_conversions import transformations
 
 class Trajectory:
     '''
@@ -46,6 +47,13 @@ class Trajectory:
         #initialize services
         self.pause = rospy.Service('pause',Pause,self.pause_callback)
         self.resume = rospy.Service('resume',Pause,self.resume_callback)
+
+        #initialize broadcaster and create transform
+        self.static_broadcaster = tf2_ros.StaticTransformBroadcaster()
+        self.world_odom_tf = TransformStamped()
+        self.world_odom_tf.header.stamp = rospy.Time.now()
+        self.world_odom_tf.header.frame_id = 'world'
+        self.world_odom_tf.child_frame_id = 'odom'
 
     def pause_callback(self,emp):
         '''
@@ -109,11 +117,11 @@ def convert_to_path(x,y):
     '''
     path = Path()
     path.poses = []
-    path.header.frame_id = 'map'
+    path.header.frame_id = 'world'
     path.header.stamp = rospy.Time.now()
     for i in range(0,len(x)):
         q = Quaternion(0,0,0,1)
-        pt = Point(x[i],y[i],1)
+        pt = Point(x[i],y[i],0)
         po = Pose(pt,q)
         post = PoseStamped()
         post.pose = po
@@ -139,6 +147,18 @@ def main():
     tr.wd = calc.find_wlist()
     xlist = calc.find_xlist()
     ylist = calc.find_ylist()
+
+    #rotate odom frame
+    q = transformations.quaternion_from_euler(0,0,tr.th0)
+    tr.world_odom_tf.transform.translation.x = 0
+    tr.world_odom_tf.transform.translation.y = 0
+    tr.world_odom_tf.transform.translation.z = 0
+    tr.world_odom_tf.transform.rotation.x = q[0]
+    tr.world_odom_tf.transform.rotation.y = q[1]
+    tr.world_odom_tf.transform.rotation.z = q[2]
+    tr.world_odom_tf.transform.rotation.w = q[3]
+    tr.static_broadcaster.sendTransform(tr.world_odom_tf)
+
 
     #publish Path message to /path
     path = convert_to_path(xlist,ylist)
