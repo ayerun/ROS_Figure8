@@ -1,8 +1,13 @@
 <launch>
+    <arg name="rviz" default='true'/>
+    <arg name="plot" default='true'/>
     <node name="romaing_turtle" pkg="turtlesim" type="turtlesim_node" />
-    <node name='plot' pkg='rqt_plot' type='rqt_plot' args='/turtle1/pose/x /turtle1/pose/y' />
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/turtle_view.rviz" />
-    <!-- <node name="rviz" pkg="rviz" type="rviz" /> -->
+    <group if="$(arg plot)" >
+        <node name='plot' pkg='rqt_plot' type='rqt_plot' args='/turtle1/pose/x /turtle1/pose/y' />
+    </group>
+    <group if="$(arg rviz)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/turtle_view.rviz" />
+    </group>
     <node name="trajectory" pkg="turtle_trajectories" type="trajectory" >
         <remap from="cmd_vel" to="/turtle1/cmd_vel" />
         <param name='pub_freq' value='200.0' />
