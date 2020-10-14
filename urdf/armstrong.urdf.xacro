@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<robot name='armstrong' xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Load from yaml file -->
+<xacro:property name='armyaml' value='$(find package)/config/arm.yaml'/>
+<xacro:property name='Ls' value='${load_yaml(armyaml)}'/>
+<xacro:property name='L1' value='${Ls["L1"]}' />
+<xacro:property name='L2' value='${Ls["L2"]}' />
+<xacro:property name='r' value='0.1' />
+
+<!-- Link 1 -->
+<link name="base" >
+  <visual>
+    <geometry>
+      <sphere radius='${r}' />
+     </geometry>
+     <material name="green_mat">
+         <color rgba="0 1 0 1" />
+     </material>
+   </visual>
+
+</link>

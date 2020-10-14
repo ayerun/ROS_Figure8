@@ -1,0 +1,9 @@
+<launch>
+  <!-- load the urdf into the parameter server -->
+  <!-- <param name="robot_description" textfile="$(find me495_urdf)/urdf/slidebot.urdf" /> -->
+  <param name="robot_description" command="xacro --inorder '$(find turtle_trajectories)/urdf/armstrong.urdf.xacro'" />
+
+  <!-- rviz will enable us to see the robot -->
+  <node name="rviz" pkg="rviz" type="rviz" />
+
+</launch>
