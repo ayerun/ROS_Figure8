@@ -1,6 +1,6 @@
 <launch>
     <arg name="rviz" default='true'/>
-    <arg name="plot" default='true'/>
+    <arg name="plot" default='false'/>
     <arg name="gaz" default='true'/>
     <group if='$(arg gaz)' >
         <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch" />
