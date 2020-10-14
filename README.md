@@ -1,6 +1,6 @@
 # Turtle Trajectories Package
-Author: Arun Kumar
-This ROS package inputs parameters describing a figure eight trajectory. Using the inputs, the homework2 python package calculates control commands for a TurtleBot to execute the figure eight trajectory. Nodes within the package publish these commands to the TurtleBot. Trajectory and simulations of the Turtlebot are available to Gazebo and rviz.
+### Author: Arun Kumar
+### This ROS package inputs parameters describing a figure eight trajectory. Using the inputs, the homework2 python package calculates control commands for a TurtleBot to execute the figure eight trajectory. Nodes within the package publish these commands to the TurtleBot. Trajectory and simulations of the Turtlebot are available to Gazebo and rviz.
 
 ### Usage Instructions:
 1. Add package to the src folder in your ROS workspace
