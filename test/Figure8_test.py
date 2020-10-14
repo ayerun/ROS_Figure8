@@ -12,6 +12,9 @@ class MyTestCase(unittest.TestCase):
     All calculations assume W=1, H=2, T=3
     '''
     def test_xd(self):
+        '''
+        Test find_xd() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -19,6 +22,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_xd(t2),3), round(-np.sqrt(3)/4,3))
 
     def test_yd(self):
+        '''
+        Test find_yd() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -26,6 +32,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_yd(t2),3), round(np.sqrt(3)/2,3))
 
     def test_xd_dot(self):
+        '''
+        Test find_xd_dot() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -33,6 +42,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_xd_dot(t2),3), round(-np.pi/6,3))
 
     def test_yd_dot(self):
+        '''
+        Test find_yd_dot() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -40,6 +52,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_yd_dot(t2),3), round(-2*np.pi/3,3))
 
     def test_xd_ddot(self):
+        '''
+        Test find_xd_ddot() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -47,6 +62,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_xd_ddot(t2),3), round((np.pi**2*np.sqrt(3))/9,3))
 
     def test_yd_ddot(self):
+        '''
+        Test find_yd_ddot() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -54,6 +72,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_yd_ddot(t2),3), round((-8*np.pi**2*np.sqrt(3))/9,3))
 
     def test_vd(self):
+        '''
+        Test find_vd() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2
@@ -61,6 +82,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEquals(round(tclass.find_vd(t2),3), 2.159)
 
     def test_wd(self):
+        '''
+        Test find_wd() function
+        '''
         tclass = f8.figure8([1,2,3,4])
         t1 = 0
         t2 = 2

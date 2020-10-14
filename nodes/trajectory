@@ -23,7 +23,8 @@ class Trajectory:
 
     def __init__(self):
         '''
-        constructor
+        constructor of trajector class
+        initializes parameters, publishers, services, broadcaster, and necessary attributes
         '''
         
         #import parameters
@@ -133,7 +134,8 @@ def convert_to_path(x,y):
 
 def main():
     '''
-    main function to calculate and execute figure eight trajectory
+    main function
+    calculates and execute figure eight trajectory using the trajectory class
     '''
     #initialize node & class
     rospy.init_node('trajectory')                               

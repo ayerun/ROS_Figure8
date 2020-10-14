@@ -2,19 +2,27 @@ import numpy as np
 
 class figure8(object):
     '''
-    Contains figure8 parameters
+    Class to calculate details of a figure eight trajectory.
+    Contains functions to map figure eight trajectory to turtlebot control input.
+    This code does not directly interact with any hardware.
     Args:
         object (list): [width (float), height (float), period (float), pub_freq (int)]
     '''
 
     def __init__(self,object):
+        '''
+        Constructor
+        Initaializes parameters of figure eight trajectory
+        Arg:
+            object (list): [width (float), height (float), period (float), pub_freq (int)]
+        '''
         self.W = object[0]
         self.H = object[1]
         self.T = object[2]
         self.pub_freq = object[3]
         self.points = self.T*self.pub_freq              #calculate number of points in trajectory
         self.tlist = np.linspace(0,self.T,self.points)  #create a list of times for simulation
-        self.plist = np.linspace(0,self.T,100)         #create a list of time for display
+        self.plist = np.linspace(0,self.T,100)         #create a list of times for path display
     
     def update(self,w,h,t,pf):
         '''
