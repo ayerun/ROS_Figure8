@@ -2,59 +2,89 @@
 <robot name='armstrong' xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <!-- Load from yaml file -->
-<xacro:property name='armyaml' value='$(find package)/config/arm.yaml'/>
+<xacro:property name='armyaml' value='$(find turtle_trajectories)/config/arm.yaml'/>
 <xacro:property name='Ls' value='${load_yaml(armyaml)}'/>
 <xacro:property name='L1' value='${Ls["L1"]}' />
 <xacro:property name='L2' value='${Ls["L2"]}' />
 <xacro:property name='r' value='0.1' />
 
-<!-- Link 1 -->
+<!-- origin -->
 <link name="base" >
-  <visual>
-    <geometry>
-      <sphere radius='${r}' />
-     </geometry>
-     <material name="green_mat">
-         <color rgba="0 1 0 1" />
-     </material>
-   </visual>
-
+    <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+            <sphere radius='${r}' />
+        </geometry>
+        <material name="green_mat">
+            <color rgba="0 1 0 1" />
+        </material>
+    </visual>
 </link>
 
-<!-- the movable body
-<link name="body">
-  <visual>
-    <geometry>
-    <box size="3 2 1" />
-    </geometry>
-     <material name="red_mat">
-         <color rgba="1 0 0 0.5" />
-     </material>
-  </visual>
-</link>
-
-<link name="arm">
-  <visual>
-  <origin xyz="0 0 0.5" rpy="0 0 0" />
-   <geometry>
-     <cylinder radius="0.1" length="1.0" />
-   </geometry>
-     <material name="blue_mat">
-         <color rgba="0 0 1 1" />
-     </material>
-   </visual>
-</link>
-
-<joint name="linear" type="prismatic">
-  <parent link="base" />
-  <child link="body" />
-  <limit lower="-10" upper="10" effort="100" velocity="100" />
+<!-- joint at origin -->
+<joint name="base_joint" type="revolute">
+    <axis xyz="0 0 1"/>
+    <limit lower='-10' upper='10' effort="100" velocity="100"/>
+    <parent link="base"/>
+    <child link="link1"/>
 </joint>
 
-<joint name="rotational" type="continuous">
-  <origin xyz="1.5 0 0.5" rpy="0 0 0" />
-  <parent link="body" />
-  <child link="arm" />
-</joint> -->
+<!-- link 1 -->
+<link name="link1">
+    <visual>
+        <origin rpy="0 ${pi/2} 0" xyz="${L1/2} 0 0"/>
+        <geometry>
+            <cylinder radius="${r}" length="${L1}"/>
+        </geometry>
+        <material name="blue_mat">
+            <color rgba="0 0 1 1" />
+        </material>
+    </visual>
+</link>
+
+<!-- joint between link1 and link2 -->
+<joint name='L1_joint' type='revolute'>
+    <axis xyz="0 0 1"/>
+    <origin xyz="${L1} 0 0"/>
+    <limit lower='-10' upper='10' effort="100" velocity="100"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+</joint>
+
+<!-- link 2 -->
+<link name="link2">
+    <visual>
+        <origin rpy="0 ${pi/2} 0" xyz="${L2/2} 0 0"/>
+        <geometry>
+            <cylinder radius="${r}" length="${L2}"/>
+        </geometry>
+        <material name="pink_mat">
+            <color rgba="1 0 1 1" />
+        </material>
+    </visual>
+</link>
+
+<!-- end effector joint -->
+<joint name='ee_joint' type='revolute'>
+    <axis xyz="0 0 1"/>
+    <origin rpy="0 0 ${13*pi/16}" xyz="${L2} 0 0"/>
+    <limit lower='10' upper='10' effort="100" velocity="100"/>
+    <parent link="link2"/>
+    <child link="ee"/>
+</joint>
+
+<!-- end effector link -->
+<link name="ee">
+    <visual>
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <geometry>
+          <sphere radius='${r}' />
+        </geometry>
+        <material name="cyan_mat">
+          <color rgba="0 1 1 1" />
+        </material>
+    </visual>
+</link>
+
 
 </robot>
