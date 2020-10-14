@@ -1,6 +1,6 @@
 <launch>
     <arg name="rviz" default='true'/>
-    <arg name="plot" default='true'/>
+    <arg name="plot" default='false'/>
     <arg name="gaz" default='true'/>
     <group if='$(arg gaz)' >
         <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch" />
@@ -12,7 +12,8 @@
         <node name='roaming_turtle' pkg='turtlesim' type='turtlesim_node' />
         <node name='plot' pkg='rqt_plot' type='rqt_plot' args='/turtle1/pose/x /turtle1/pose/y' if='$(arg plot)'/>
     </group>
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/turtle_view.rviz" if='$(arg rviz)'/>
+    <!-- <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/turtle_view.rviz" if='$(arg rviz)'/> -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/testing.rviz"/>
     <node name="trajectory" pkg="turtle_trajectories" type="trajectory" >
         <param name='pub_freq' value='500.0' />
         <rosparam file="$(find turtle_trajectories)/config/trajectory.yaml" />
