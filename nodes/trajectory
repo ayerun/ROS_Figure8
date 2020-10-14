@@ -165,13 +165,6 @@ def main():
     path = convert_to_path(xlist,ylist)
     tr.ppub.publish(path)
 
-    #Orient turtle
-    # now = rospy.get_time()
-    # while rospy.get_time() < now+4:
-    #     tr.pub.publish(turtle_twist(0,tr.th0/4))
-    #     tr.prate.sleep()
-    # tr.pub.publish(turtle_twist(0,0))
-
     #FIGURE 8
     tr.follow_path()
 
