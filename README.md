@@ -4,14 +4,14 @@ This ROS package inputs parameters describing a figure eight trajectory. Using t
 
 ### Usage Instructions:
 1. Add package to the src folder in your ROS workspace
-1. Compile: `<catkin_make>`
-1. Add the TurtleBot Burger model to your ROS environment variables: `<export TURTLEBOT3_MODEL=burger>`
-1. Start simulation: `<roslaunch turtle_trajectories figure_eight.launch>`
+1. Compile: `catkin_make`
+1. Add the TurtleBot Burger model to your ROS environment variables: `export TURTLEBOT3_MODEL=burger`
+1. Start simulation: `roslaunch turtle_trajectories figure_eight.launch`
 1. Turtle starts in a paused state
-1. Call the /resume service to make turtle execute trajectory: `<rosservice call /resume>`
-1. Turtle can be paused at any time by calling the pause service: `<rosservice call /pause>`
+1. Call the /resume service to make turtle execute trajectory: `rosservice call /resume`
+1. Turtle can be paused at any time by calling the pause service: `rosservice call /pause`
 
-### Configuration
+### Configuration Instructions:
 1. Configure figure eight trajectory parameters in config/trajectory.yaml
 1. Launch configuration
     * The figure_eight launch file contains three arguments, gaz, rviz, and plot, which correspond to Gazebo, rviz, and rqt_plot
@@ -24,6 +24,7 @@ roslaunch turtle_trajectories figure_eight.launch plot:=false
 ```
 
 ### Testing:
-Run `<catkin_make run_tests>` in root directory of workspace to test python package, homework2
+Run `catkin_make run_tests` in root directory of workspace to test python package, homework2
 
 ### Videos:
+[![TurtleBot](http://img.youtube.com/vi/SWCIdvja4TE/0.jpg)](http://www.youtube.com/watch?v=SWCIdvja4TE "TurtleBot")
