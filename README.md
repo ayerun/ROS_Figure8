@@ -15,10 +15,10 @@ export TURTLEBOT3_MODEL=burger
 ```
 roslaunch turtle_trajectories figure_eight.launch
 ```
-    1. The figure_eight launch file contains three arguments, gaz, rviz, and plot, which correspond to Gazebo, rviz, and rqt_plot
-    1. When these arguments are true the corresponding packages are launched
-    1. By default all three arguments are true
-    1. Set arguements false either via the command line or via the launch file.
+ 1. The figure_eight launch file contains three arguments, gaz, rviz, and plot, which correspond to Gazebo, rviz, and rqt_plot
+ 1. When these arguments are true the corresponding packages are launched
+ 1. By default all three arguments are true
+ 1. Set arguements false either via the command line or via the launch file.
 ```
 roslaunch turtle_trajectories figure_eight.launch plot:=false
 ```
