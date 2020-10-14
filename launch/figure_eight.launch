@@ -1,7 +1,10 @@
 <launch>
     <arg name="rviz" default='true'/>
-    <arg name="plot" default='true'/>
-    <node name="romaing_turtle" pkg="turtlesim" type="turtlesim_node" />
+    <arg name="plot" default='false'/>
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch"/>
+    <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch" />
+    <param name='/robot_state_publisher/publish_frequency' value='500.0' />
+    <!-- <node name="romaing_turtle" pkg="turtlesim" type="turtlesim_node" /> -->
     <group if="$(arg plot)" >
         <node name='plot' pkg='rqt_plot' type='rqt_plot' args='/turtle1/pose/x /turtle1/pose/y' />
     </group>
@@ -9,8 +12,8 @@
         <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/turtle_view.rviz" />
     </group>
     <node name="trajectory" pkg="turtle_trajectories" type="trajectory" >
-        <remap from="cmd_vel" to="/turtle1/cmd_vel" />
-        <param name='pub_freq' value='200.0' />
+        <!-- <remap from="cmd_vel" to="/turtle1/cmd_vel" /> -->
+        <param name='pub_freq' value='500.0' />
         <rosparam file="$(find turtle_trajectories)/config/trajectory.yaml" />
     </node>
 </launch>

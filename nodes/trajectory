@@ -83,6 +83,7 @@ class Trajectory:
         Publishes velocity and angular velocity data to make turtle follow the desired path
         '''
         while self.i < len(self.vd):
+            #self.pub.publish(turtle_twist(0,0))
             self.pub.publish(turtle_twist(self.vd[self.i],self.wd[self.i]))
             self.i=self.i+1
             #Check to see if pause service has been called
@@ -165,11 +166,11 @@ def main():
     tr.ppub.publish(path)
 
     #Orient turtle
-    now = rospy.get_time()
-    while rospy.get_time() < now+4:
-        tr.pub.publish(turtle_twist(0,tr.th0/4))
-        tr.prate.sleep()
-    tr.pub.publish(turtle_twist(0,0))
+    # now = rospy.get_time()
+    # while rospy.get_time() < now+4:
+    #     tr.pub.publish(turtle_twist(0,tr.th0/4))
+    #     tr.prate.sleep()
+    # tr.pub.publish(turtle_twist(0,0))
 
     #FIGURE 8
     tr.follow_path()
