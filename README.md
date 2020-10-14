@@ -8,7 +8,7 @@ This ROS package inputs parameters describing a figure eight trajectory. Using t
 1. Add the TurtleBot Burger model to your ROS environment variables: `export TURTLEBOT3_MODEL=burger`
 1. Start simulation: `roslaunch turtle_trajectories figure_eight.launch`
 1. Turtle starts in a paused state
-1. Call the /resume service to make turtle execute trajectory: `rosservice call /resume`
+1. Call the resume service to make turtle execute trajectory: `rosservice call /resume`
 1. Turtle can be paused at any time by calling the pause service: `rosservice call /pause`
 
 ### Configuration Instructions:
