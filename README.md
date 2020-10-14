@@ -22,6 +22,12 @@ roslaunch turtle_trajectories figure_eight.launch
 '''
 roslaunch turtle_trajectories figure_eight.launch plot:=false
 '''
+1. Turtle starts in a paused state
+1. Call the /resume service to make turtle execute trajectory
+'''
+rosservice call /resume
+'''
+ 1. Turtle can be paused at any time by calling the pause service
 
 ### Testing:
 Run '<catkin_make>' run_tests in root directory of workspace to test python package, homework2
