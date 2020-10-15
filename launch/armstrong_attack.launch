@@ -1,19 +1,19 @@
 <launch>
-  <!-- load the urdf into the parameter server -->
-  <param name="robot_description" command="xacro '$(find turtle_trajectories)/urdf/armstrong.urdf.xacro'" />
-  <rosparam file='$(find turtle_trajectories)/config/arm.yaml' /> 
-  <!-- The robot_state_publisher reads the urdf from /robot_description parameter
-       and listens to joint information on the /joint_states topic -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+     <arg name="rviz" default='true'/>
+     <arg name="gui" default='false'/>
 
-  <!-- The joint state publisher will be launched with a gui, read the urdf from /robot_description
-       and publish the joint values on /joint_states --> 
-  <!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui"/> -->
+     <!-- load the urdf into the parameter server -->
+     <param name="robot_description" command="xacro '$(find turtle_trajectories)/urdf/armstrong.urdf.xacro'" />
 
+     <!-- load parameter file -->
+     <rosparam file='$(find turtle_trajectories)/config/arm.yaml' /> 
 
-  <!-- rviz will enable us to see the robot -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/arm_view.rviz"/>
+     <!-- necessary node -->
+     <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
-  <node name='arm_traj' pkg='turtle_trajectories' type='arm_traj' output='screen'/>
+     <!-- optional nodes -->
+     <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" if='$(arg gui)' />
+     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/arm_view.rviz" if='$(arg rviz)' />
+     <node name='arm_traj' pkg='turtle_trajectories' type='arm_traj' unless='$(arg gui)' />
 
 </launch>

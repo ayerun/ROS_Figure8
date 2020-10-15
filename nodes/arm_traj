@@ -10,7 +10,7 @@ import time
 class Armed:
     '''
     Class solves inverse kinematics to create a simple arm motion plan
-    Publises:   sensor_msg/JointState to joint_state
+    Publishes:   sensor_msg/JointState to joint_state
     '''
 
     def __init__(self):
