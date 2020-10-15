@@ -31,6 +31,28 @@ class EEMarker:
         self.rate = 10
         self.prate = rospy.Rate(self.rate)
 
+        #initialize listener
+        self.buf = tf2.Buffer()
+        self.tl = tf2.TransformListener(self.buf)
+
+        #track end effector
+        self.coords = self.tracking()
+        print(self.coords)
+
+    def tracking(self):
+        '''
+        Listen for transformation and returns it when it is heard
+        '''
+        found = False
+        while found == False:
+            try:
+                trans = self.buf.lookup_transform('base_link','ee',rospy.Time())
+                tx = trans.transform.translation.x
+                ty = trans.transform.translation.y
+                found = True
+            except:
+                rospy.loginfo('no transform')
+        return [tx,ty]
 
 def main():
     rospy.init_node('arm_marker') 
