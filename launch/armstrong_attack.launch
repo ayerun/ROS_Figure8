@@ -1,8 +1,7 @@
 <launch>
   <!-- load the urdf into the parameter server -->
-  <!-- <param name="robot_description" textfile="$(find me495_urdf)/urdf/slidebot.urdf" /> -->
   <param name="robot_description" command="xacro '$(find turtle_trajectories)/urdf/armstrong.urdf.xacro'" />
-
+  <rosparam file='$(find turtle_trajectories)/config/arm.yaml' /> 
   <!-- The robot_state_publisher reads the urdf from /robot_description parameter
        and listens to joint information on the /joint_states topic -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
@@ -15,6 +14,6 @@
   <!-- rviz will enable us to see the robot -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/arm_view.rviz"/>
 
-
+  <node name='motion_planning' pkg='turtle_trajectories' type='arm_traj' output='screen'/>
 
 </launch>

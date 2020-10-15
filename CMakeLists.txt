@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   rospy
   rviz
+  sensor_msgs
   std_msgs
   tf2
   tf2_ros
@@ -76,7 +77,7 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  geometry_msgs nav_msgs std_msgs
+  geometry_msgs nav_msgs sensor_msgs std_msgs
 )
 
 ################################################
@@ -111,7 +112,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES turtle_trajectories
- CATKIN_DEPENDS geometry_msgs message_runtime nav_msgs rospy rviz std_msgs turtlesim
+ CATKIN_DEPENDS geometry_msgs message_runtime nav_msgs rospy rviz sensor_msgs std_msgs turtlesim
 #  DEPENDS system_lib
 )
 
@@ -168,6 +169,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   nodes/trajectory
+  nodes/arm_traj
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
