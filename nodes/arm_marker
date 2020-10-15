@@ -23,7 +23,8 @@ class EEMarker:
         '''
         constructor of EEMarker class
         initializes necessary parameters
-        provides functions for finding (x,y) position of end effector and publishing markers at those positions
+        uses a transform listener to find (x,y) position of end effector 
+        publishes markers at those positions
         '''
 
         #import parameters
