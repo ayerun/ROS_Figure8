@@ -22,6 +22,7 @@ class Armed:
         #import parameters
         self.L1 = rospy.get_param('L1')
         self.L2 = rospy.get_param('L2')
+        self.T = rospy.get_param('T')
 
         #initialize publisher
         self.pub = rospy.Publisher('joint_states',JointState,queue_size=10)
@@ -29,7 +30,6 @@ class Armed:
         self.prate = rospy.Rate(self.rate)
 
         #attributes
-        self.T = 3
         self.h = (2/3)*(self.L1+self.L2)
         self.points = self.T*self.rate                  #number of points in one period (T)
         self.tlist = np.linspace(0,self.T,self.points)  #list of times in one period (T)
