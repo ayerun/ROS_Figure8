@@ -31,9 +31,12 @@ class Armed:
         self.h = (2/3)*(self.L1+self.L2)
         self.points = self.T*self.rate                  #number of points in one period (T)
         self.tlist = np.linspace(0,self.T,self.points)  #list of times in one period (T)
+
+        #motion planning
         self.xlist = self.xcalc()
         self.jslist = []
-        self.jscalc()
+        self.ths = self.jscalc()
+        print(self.ths)
 
     def xcalc(self):
         '''
@@ -49,12 +52,17 @@ class Armed:
         Uses inverse kinematics to calculate all JointState messages in one period (T)
         inverse kinematics equations are taken from chapter 6 of Modern Robotics by Lynch, Park
         '''
-        gammas = np.arctan((1/self.xlist)*self.h)
+        ylist = self.h*np.ones_like(self.xlist)
+        gammas = np.arctan2(ylist,self.xlist)
         betas = np.arccos((self.L1**2+self.L2**2-np.square(self.xlist)-self.h**2)/(2*self.L1*self.L2))
-        alphas = np.arccos((np.square(self.xlist)*self.h**2+self.L1**2-self.L2**2)/(2*self.L1*np.sqrt(self.xlist*self.h)))
-        print(gammas)
-
-        return 0
+        alphas = np.arccos((np.square(self.xlist)+self.h**2+self.L1**2-self.L2**2)/(2*self.L1*np.sqrt(np.square(self.xlist)+self.h**2)))
+        th1 = gammas-alphas
+        th2 = np.pi-betas
+        th3 = np.zeros_like(th2)
+        # js = JointState()
+        # js.header.stamp = rospy.Time.now()
+        # js.name=['link1','link2','ee']
+        return [th1,th2,th3]
 
 def main():
     rospy.init_node('arm_traj')  
