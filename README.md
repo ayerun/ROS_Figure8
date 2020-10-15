@@ -32,6 +32,9 @@ Run `catkin_make run_tests` in root directory of workspace to test python packag
 #### Videos:
 [![TurtleBot](http://img.youtube.com/vi/SWCIdvja4TE/0.jpg)](http://www.youtube.com/watch?v=SWCIdvja4TE "TurtleBot")
 
+#### Math:
+The math directory contains a pdf and jupyter notebook of the derivation of the equations used in this package for trajectory generation.
+
 
 ### Xacro Arm
 
