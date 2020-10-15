@@ -4,6 +4,7 @@ import rospy
 import tf2_ros as tf2
 import numpy as np
 from sensor_msgs.msg import JointState
+from geometry_msgs.msg import TransformStamped
 import time
 
 class Armed:
@@ -24,11 +25,19 @@ class Armed:
 
         #initialize publisher
         self.pub = rospy.Publisher('joint_states',JointState,queue_size=10)
-        self.rate = 200
+        self.rate = 1
         self.prate = rospy.Rate(self.rate)
 
+        #initialize transform broadcaster
+        # self.brT = tf2.TransformBroadcaster()
+        # self.tfBuffer = tf2.Buffer()
+        # self.tfn2 = tf2.TransformListener(self.tfBuffer)
+        # self.br = TransformStamped()
+        # self.br.header.frame_id = "map"
+        # self.br.child_frame_id = "base_link"
+
         #attributes
-        self.T = 2
+        self.T = 60
         self.h = (2/3)*(self.L1+self.L2)
         self.points = self.T*self.rate                  #number of points in one period (T)
         self.tlist = np.linspace(0,self.T,self.points)  #list of times in one period (T)
@@ -62,7 +71,7 @@ class Armed:
         alphas = np.arccos((np.square(self.xlist)+self.h**2+self.L1**2-self.L2**2)/(2*self.L1*np.sqrt(np.square(self.xlist)+self.h**2)))
         th1 = gammas-alphas
         th2 = np.pi-betas
-        th3 = np.zeros_like(th2)
+        th3 = 10*np.ones_like(th2)
         return [th1,th2,th3]
 
     def createMessage(self):
@@ -78,6 +87,17 @@ class Armed:
             #js.effot = []
             self.jslist.append(js)
         return None
+    
+    # def broadcastTF(self):
+    #     t = TransformStamped()
+    #     t.header.stamp = rospy.Time.now()
+    #     t.header.frame_id = 'base_joint'
+    #     t.child_frame_id = 'ee_joint'
+
+    # def pubbin(self):
+    #     return 0
+
+
 
 def main():
     rospy.init_node('arm_traj')  
@@ -92,7 +112,7 @@ def main():
         if i == arm.points:
             i = 0
         arm.prate.sleep()
-    #rospy.spin()
+    rospy.spin()
 
 if __name__ == '__main__':
     try:

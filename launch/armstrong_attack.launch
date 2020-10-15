@@ -14,6 +14,6 @@
   <!-- rviz will enable us to see the robot -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find turtle_trajectories)/config/arm_view.rviz"/>
 
-  <node name='motion_planning' pkg='turtle_trajectories' type='arm_traj' output='screen'/>
+  <node name='arm_traj' pkg='turtle_trajectories' type='arm_traj' output='screen'/>
 
 </launch>
