@@ -33,19 +33,20 @@ Run `catkin_make run_tests` in root directory of workspace to test python packag
 [![TurtleBot](http://img.youtube.com/vi/SWCIdvja4TE/0.jpg)](http://www.youtube.com/watch?v=SWCIdvja4TE "TurtleBot")
 
 
-### Arm Trajectory
+### Xacro Arm
 
-#### This portion of the package...
+#### This portion of the package models a 2R arm in rviz. The user is able to input the lengths of the arm links. Motion planning is done in the arm_traj node which makes the arm follow a continuous path. The arm_marker node tracks the end effector. This node also publishes markers in rviz showing the path of the end effector's recent motion.
 
 #### Usage Instructions:
 1. Add package to the src folder in your ROS workspace
 1. Compile: `catkin_make`
 1. Start simulation: `roslaunch turtle_trajectories armstrong_attack.launch`
+1. Or: `roslaunch turtle_trajectories markers.launch`
 
 #### Configuration Instructions:
 1. Configure link lengths and trajectory period of arm in config/arm.yaml
     * L<sub>1</sub> &ne; L<sub>2</sub>
-1. Launch configuration
+1. Launch configuration (armstrong_attack.launch)
     * The armstrong_attack launch file contains two arguments, rviz and gui, which correspond to rviz and joint_state_publisher_gui
     * By default rviz is true and gui is false
     * When gui is false the arm follows the trajectory published by arm_traj
@@ -53,4 +54,13 @@ Run `catkin_make run_tests` in root directory of workspace to test python packag
     * The following command launches with the joint_state_publisher_gui instead of arm_traj:
 ```
 roslaunch turtle_trajectories armstrong_attack.launch gui:=true
+```
+3. Launch configuration (markers.launch)
+    * The markers launch file contains one arguement, markers
+    * By default markers is true
+    * When markers is false the arm follows the trajectory without markers being published to rviz
+    * Set arguements true or false either via the command line or via the launch file.
+    * The following command launches without the arm_marker node
+```
+roslaunch turtle_trajectories markers.launch markers:=false
 ```

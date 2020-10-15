@@ -87,6 +87,9 @@ class EEMarker:
 
 
 def main():
+    '''
+    main function to initalize class, track, and mark
+    '''
     rospy.init_node('arm_marker') 
     em = EEMarker()
     while not rospy.is_shutdown():
