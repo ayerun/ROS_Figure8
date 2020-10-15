@@ -15,10 +15,10 @@ class Trajectory:
     Broadcasts: static transform from world to odom 
     Services:   pause - stop turtle motion
                 resume - resume turtle motion
-    Parameters: width of figure 8
-                height of figure 8
-                period
-                ~pub_freq
+    Parameters: W - width of figure 8
+                H - height of figure 8
+                T - period
+                pub_freq - publication frequency
     '''
 
     def __init__(self):

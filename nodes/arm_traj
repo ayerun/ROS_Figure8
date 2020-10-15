@@ -1,22 +1,27 @@
 #!/usr/bin/env python3
 
 import rospy
-import tf2_ros as tf2
 import numpy as np
 from sensor_msgs.msg import JointState
 from geometry_msgs.msg import TransformStamped
-import time
 
 class Armed:
     '''
     Class solves inverse kinematics to create a simple arm motion plan
-    Publishes:   sensor_msg/JointState to joint_state
+    
+    Publishes:  sensor_msg/JointState to joint_state
+    Parameters: L1 - length of link 1
+                L2 - length of link 2
+                T - Time to complete trajectory
     '''
 
     def __init__(self):
         '''
         constructor of Armed class
         initializes necessary publishers and attributes
+        solves inverse kinematics
+        creates JointState messages
+        publishes JointState messages
         '''
 
         #import parameters

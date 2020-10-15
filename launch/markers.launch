@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find turtle_trajectories)/launch/armstrong_attack.launch" />
+    <node name='mark' pkg='turtle_trajectories' type='arm_marker' output='screen' />
+</launch>
