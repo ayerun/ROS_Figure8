@@ -4,6 +4,7 @@ import rospy
 import tf2_ros as tf2
 import numpy as np
 from sensor_msgs.msg import JointState
+import time
 
 class Armed:
     '''
@@ -27,16 +28,19 @@ class Armed:
         self.prate = rospy.Rate(self.rate)
 
         #attributes
-        self.T = 5
+        self.T = 2
         self.h = (2/3)*(self.L1+self.L2)
         self.points = self.T*self.rate                  #number of points in one period (T)
         self.tlist = np.linspace(0,self.T,self.points)  #list of times in one period (T)
 
         #motion planning
         self.xlist = self.xcalc()
-        self.jslist = []
         self.ths = self.jscalc()
-        print(self.ths)
+
+        #message generation
+        self.jslist = []
+        self.createMessage()
+        rospy.loginfo(self.jslist)
 
     def xcalc(self):
         '''
@@ -59,14 +63,36 @@ class Armed:
         th1 = gammas-alphas
         th2 = np.pi-betas
         th3 = np.zeros_like(th2)
-        # js = JointState()
-        # js.header.stamp = rospy.Time.now()
-        # js.name=['link1','link2','ee']
         return [th1,th2,th3]
+
+    def createMessage(self):
+        '''
+        Creates a list of JointState messages 
+        '''
+        for i in range(0,len(self.ths[0])):
+            js = JointState()
+            js.name = ['base_joint','L1_joint','ee_joint']
+            js.header.stamp = rospy.Time.now()
+            js.position = [self.ths[0][i],self.ths[1][i],self.ths[2][i]]
+            #js.velocity = []
+            #js.effot = []
+            self.jslist.append(js)
+        return None
 
 def main():
     rospy.init_node('arm_traj')  
     arm = Armed()
+    i = 0
+    print('outside loop')
+    while not rospy.is_shutdown():
+        print('inside loop')
+        arm.pub.publish(arm.jslist[i])
+        print('pubbed')
+        i = i+1
+        if i == arm.points:
+            i = 0
+        arm.prate.sleep()
+    #rospy.spin()
 
 if __name__ == '__main__':
     try:

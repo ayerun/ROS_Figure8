@@ -9,7 +9,7 @@
 <xacro:property name='r' value='0.1' />
 
 <!-- origin -->
-<link name="base" >
+<link name="base_link" >
     <visual>
         <origin rpy="0 0 0" xyz="0 0 0" />
         <geometry>
@@ -25,7 +25,7 @@
 <joint name="base_joint" type="revolute">
     <axis xyz="0 0 1"/>
     <limit lower='-10' upper='10' effort="100" velocity="100"/>
-    <parent link="base"/>
+    <parent link="base_link"/>
     <child link="link1"/>
 </joint>
 

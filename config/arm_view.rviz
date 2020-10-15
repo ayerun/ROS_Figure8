@@ -64,17 +64,22 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        arm:
+        base_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        base:
+        ee:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        body:
+        link1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        link2:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -90,11 +95,13 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: true
-        arm:
+        base_link:
           Value: true
-        base:
+        ee:
           Value: true
-        body:
+        link1:
+          Value: true
+        link2:
           Value: true
       Marker Alpha: 1
       Marker Scale: 1
@@ -103,17 +110,18 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base:
-          body:
-            arm:
-              {}
+        base_link:
+          link1:
+            link2:
+              ee:
+                {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: base
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -174,4 +182,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 60
-  Y: 23
+  Y: 0
