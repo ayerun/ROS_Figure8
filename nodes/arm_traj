@@ -25,19 +25,11 @@ class Armed:
 
         #initialize publisher
         self.pub = rospy.Publisher('joint_states',JointState,queue_size=10)
-        self.rate = 1
+        self.rate = 200
         self.prate = rospy.Rate(self.rate)
 
-        #initialize transform broadcaster
-        # self.brT = tf2.TransformBroadcaster()
-        # self.tfBuffer = tf2.Buffer()
-        # self.tfn2 = tf2.TransformListener(self.tfBuffer)
-        # self.br = TransformStamped()
-        # self.br.header.frame_id = "map"
-        # self.br.child_frame_id = "base_link"
-
         #attributes
-        self.T = 60
+        self.T = 3
         self.h = (2/3)*(self.L1+self.L2)
         self.points = self.T*self.rate                  #number of points in one period (T)
         self.tlist = np.linspace(0,self.T,self.points)  #list of times in one period (T)
@@ -49,7 +41,9 @@ class Armed:
         #message generation
         self.jslist = []
         self.createMessage()
-        rospy.loginfo(self.jslist)
+
+        #publish messages
+        self.pubbin()
 
     def xcalc(self):
         '''
@@ -81,37 +75,30 @@ class Armed:
         for i in range(0,len(self.ths[0])):
             js = JointState()
             js.name = ['base_joint','L1_joint','ee_joint']
-            js.header.stamp = rospy.Time.now()
             js.position = [self.ths[0][i],self.ths[1][i],self.ths[2][i]]
-            #js.velocity = []
-            #js.effot = []
             self.jslist.append(js)
         return None
-    
-    # def broadcastTF(self):
-    #     t = TransformStamped()
-    #     t.header.stamp = rospy.Time.now()
-    #     t.header.frame_id = 'base_joint'
-    #     t.child_frame_id = 'ee_joint'
 
-    # def pubbin(self):
-    #     return 0
+    def pubbin(self):
+        '''
+        Parses list of JointState messages
+        Adds timestamp
+        Publishes messages
+        '''
+        i = 0
+        while not rospy.is_shutdown():
+            self.jslist[i].header.stamp = rospy.Time.now()  #timestamp for the publisher
+            self.pub.publish(self.jslist[i])
+            i = i+1
+            if i == self.points:
+                i = 0
+            self.prate.sleep()
 
 
 
 def main():
     rospy.init_node('arm_traj')  
     arm = Armed()
-    i = 0
-    print('outside loop')
-    while not rospy.is_shutdown():
-        print('inside loop')
-        arm.pub.publish(arm.jslist[i])
-        print('pubbed')
-        i = i+1
-        if i == arm.points:
-            i = 0
-        arm.prate.sleep()
     rospy.spin()
 
 if __name__ == '__main__':
