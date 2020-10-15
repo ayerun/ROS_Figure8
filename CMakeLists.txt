@@ -170,6 +170,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   nodes/trajectory
   nodes/arm_traj
+  nodes/arm_marker
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
