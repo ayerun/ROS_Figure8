@@ -1,8 +1,10 @@
 # Turtle Trajectories Package
 ### Author: Arun Kumar
-#### This ROS package inputs parameters describing a figure eight trajectory. Using the inputs, the homework2 python package calculates control commands for a TurtleBot to execute the figure eight trajectory. Nodes within the package publish these commands to the TurtleBot. Trajectory and simulations of the Turtlebot are available to Gazebo and rviz.
 
 ### Turtlebot Figure Eight
+
+#### This portion of the package inputs parameters describing a figure eight trajectory. Using the inputs, the homework2 python package calculates control commands for a TurtleBot to execute the figure eight trajectory. Nodes within the package publish these commands to the TurtleBot. Trajectory and simulations of the Turtlebot are available to Gazebo and rviz.
+
 #### Usage Instructions:
 1. Add package to the src folder in your ROS workspace
 1. Compile: `catkin_make`
@@ -32,6 +34,9 @@ Run `catkin_make run_tests` in root directory of workspace to test python packag
 
 
 ### Arm Trajectory
+
+#### This portion of the package...
+
 #### Usage Instructions:
 1. Add package to the src folder in your ROS workspace
 1. Compile: `catkin_make`
@@ -40,3 +45,12 @@ Run `catkin_make run_tests` in root directory of workspace to test python packag
 #### Configuration Instructions:
 1. Configure link lengths and trajectory period in arm in config/arm.yaml
     * L<sub>1</sub> &ne; L<sub>2</sub>
+1. Launch configuration
+    * The armstrong_attack launch file contains two arguments, rviz and gui, which correspond to rviz and joint_state_publisher_gui
+    * By default rviz is true and gui is false
+    * When gui is false the arm follows the trajectory published by arm_traj
+    * Set arguements true or false either via the command line or via the launch file.
+    * The following command launches with the joint_state_publish_gui instead of arm_traj:
+```
+roslaunch turtle_trajectories armstrong_attack.launch gui:=true
+```
