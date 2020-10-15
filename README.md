@@ -43,14 +43,14 @@ Run `catkin_make run_tests` in root directory of workspace to test python packag
 1. Start simulation: `roslaunch turtle_trajectories armstrong_attack.launch`
 
 #### Configuration Instructions:
-1. Configure link lengths and trajectory period in arm in config/arm.yaml
+1. Configure link lengths and trajectory period of arm in config/arm.yaml
     * L<sub>1</sub> &ne; L<sub>2</sub>
 1. Launch configuration
     * The armstrong_attack launch file contains two arguments, rviz and gui, which correspond to rviz and joint_state_publisher_gui
     * By default rviz is true and gui is false
     * When gui is false the arm follows the trajectory published by arm_traj
     * Set arguements true or false either via the command line or via the launch file.
-    * The following command launches with the joint_state_publish_gui instead of arm_traj:
+    * The following command launches with the joint_state_publisher_gui instead of arm_traj:
 ```
 roslaunch turtle_trajectories armstrong_attack.launch gui:=true
 ```
