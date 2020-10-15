@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
 import rospy
-import tf2_ros
+import tf2_ros as tf2
+import numpy as np
 from sensor_msgs.msg import JointState
 
 class Armed:
     '''
+    Class solves inverse kinematics to create a simple arm motion plan
     Publises:   sensor_msg/JointState to joint_state
     '''
 
@@ -18,9 +20,44 @@ class Armed:
         #import parameters
         self.L1 = rospy.get_param('L1')
         self.L2 = rospy.get_param('L2')
+
+        #initialize publisher
+        self.pub = rospy.Publisher('joint_states',JointState,queue_size=10)
+        self.rate = 200
+        self.prate = rospy.Rate(self.rate)
+
+        #attributes
+        self.T = 5
         self.h = (2/3)*(self.L1+self.L2)
+        self.points = self.T*self.rate                  #number of points in one period (T)
+        self.tlist = np.linspace(0,self.T,self.points)  #list of times in one period (T)
+        self.xlist = self.xcalc()
+        self.jslist = []
+        self.jscalc()
+
+    def xcalc(self):
+        '''
+        calculates x positions of end effector over one period (T)
+        Returns:
+            x (float list): x positions of end effector
+        '''
+        x = 0.9*np.cos((2*np.pi*self.tlist)/self.T)*np.sqrt((self.L1+self.L2)**2-self.h**2)
+        return x
+    
+    def jscalc(self):
+        '''
+        Uses inverse kinematics to calculate all JointState messages in one period (T)
+        inverse kinematics equations are taken from chapter 6 of Modern Robotics by Lynch, Park
+        '''
+        gammas = np.arctan((1/self.xlist)*self.h)
+        betas = np.arccos((self.L1**2+self.L2**2-np.square(self.xlist)-self.h**2)/(2*self.L1*self.L2))
+        alphas = np.arccos((np.square(self.xlist)*self.h**2+self.L1**2-self.L2**2)/(2*self.L1*np.sqrt(self.xlist*self.h)))
+        print(gammas)
+
+        return 0
 
 def main():
+    rospy.init_node('arm_traj')  
     arm = Armed()
 
 if __name__ == '__main__':
